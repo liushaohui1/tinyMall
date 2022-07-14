@@ -57,13 +57,6 @@ mybatis-plus:
     cache-enabled: false
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
 
-# 自定义redis key
-redis:
-  key:
-    prefix:
-      authCode: "portal:authCode:"
-    expire:
-      authCode: 120 # 验证码超期时间
 
 # 自定义jwt key
 jwt:
