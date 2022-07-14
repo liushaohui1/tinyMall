@@ -15,6 +15,7 @@ import com.aprilz.tiny.dto.ApAdminLoginParam;
 import com.aprilz.tiny.dto.UserInfo;
 import com.aprilz.tiny.dto.WxLoginParam;
 import com.aprilz.tiny.mbg.entity.ApUser;
+import com.aprilz.tiny.service.IApCouponService;
 import com.aprilz.tiny.service.IApUserService;
 import com.aprilz.tiny.vo.Token;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -48,6 +49,9 @@ import java.util.Objects;
 public class ApUserController {
     @Autowired
     private IApUserService userService;
+
+    @Autowired
+    private IApCouponService couponService;
 
     @Resource
     private WxMaService wxService;
@@ -114,7 +118,7 @@ public class ApUserController {
         }
 
         LambdaQueryWrapper<ApUser> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(ApUser::getWxOpenid, openId).eq(ApUser::getStatus, true);
+        queryWrapper.eq(ApUser::getWxOpenid, openId).eq(ApUser::getDeleteFlag, true).eq(ApUser::getStatus,1);
         ApUser user = userService.getOne(queryWrapper);
         if (Objects.isNull(user)) {
             user = new ApUser();
@@ -128,11 +132,9 @@ public class ApUserController {
             user.setLastLoginTime(new Date());
             user.setLastLoginIp(IpUtils.getIpAddress(request));
             user.setSessionKey(sessionKey);
-
             userService.save(user);
-
             // 新用户发送注册优惠券
-            //couponAssignService.assignForRegister(user.getId());
+            couponService.assignForRegister(user.getId());
         } else {
             user.setLastLoginTime(new Date());
             user.setLastLoginIp(IpUtils.getIpAddress(request));

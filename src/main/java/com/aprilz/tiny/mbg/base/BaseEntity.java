@@ -65,9 +65,8 @@ public abstract class BaseEntity<A extends BaseEntity> extends Model {
     @ApiModelProperty(value = "更新时间", hidden = true)
     private Date updateTime;
 
-    @TableField(value = "status",fill = FieldFill.INSERT)
+    @TableField(value = "delete_flag",fill = FieldFill.INSERT)
     @ApiModelProperty(value = "删除标志 0->删除；1->未删除", hidden = true)
-    private Boolean status;
-
+    private Boolean deleteFlag;
 
 }

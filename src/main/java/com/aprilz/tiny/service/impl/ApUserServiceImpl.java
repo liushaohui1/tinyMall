@@ -48,7 +48,7 @@ public class ApUserServiceImpl extends ServiceImpl<ApUserMapper, ApUser> impleme
     @Override
     public ApUser getUserByUsernameOrMobile(String username) {
         LambdaQueryWrapper<ApUser> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(ApUser::getStatus, 1);
+        wrapper.eq(ApUser::getDeleteFlag, true).eq(ApUser::getStatus, 1);
         wrapper.and(w -> {
             w.eq(ApUser::getUsername, username)
                     .or().eq(ApUser::getMobile, username);

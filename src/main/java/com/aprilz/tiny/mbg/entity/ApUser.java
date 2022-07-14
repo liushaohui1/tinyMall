@@ -1,10 +1,8 @@
 package com.aprilz.tiny.mbg.entity;
 
 import com.aprilz.tiny.mbg.base.BaseEntity;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
 import java.util.Date;
 import io.swagger.annotations.ApiModel;
@@ -78,6 +76,11 @@ public class ApUser extends BaseEntity<ApUser> {
     @ApiModelProperty("微信登录会话KEY")
     @TableField("session_key")
     private String sessionKey;
+
+    @ApiModelProperty("帐号启用状态：0->禁用；1->启用")
+    @TableField("status")
+    @TableLogic
+    private Integer status;
 
 
     @Override

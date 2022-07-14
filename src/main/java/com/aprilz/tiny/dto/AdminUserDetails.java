@@ -52,6 +52,6 @@ public class AdminUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return apUser.getStatus();
+        return apUser.getDeleteFlag();
     }
 }

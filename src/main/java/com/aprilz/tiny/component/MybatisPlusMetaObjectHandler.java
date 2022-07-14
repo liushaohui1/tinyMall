@@ -40,10 +40,10 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
             this.strictUpdateFill(metaObject, "updateBy", String.class, username);
         }
 
-        if (metaObject.hasGetter("status")) {
+        if (metaObject.hasGetter("deleteFlag")) {
             //无值则写入
-            if (Objects.isNull(metaObject.getValue("status"))) {
-                this.setFieldValByName("status", true, metaObject);
+            if (Objects.isNull(metaObject.getValue("deleteFlag"))) {
+                this.setFieldValByName("deleteFlag", true, metaObject);
             }
         }
     }
