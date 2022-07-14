@@ -15,18 +15,18 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 后台用户和角色关系表
+ * test
  * </p>
  *
  * @author aprilz
- * @since 2022-07-07
+ * @since 2022-07-14
  */
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("ap_admin_role_relation")
-@ApiModel(value = "ApAdminRoleRelationEntity对象", description = "后台用户和角色关系表")
-public class ApAdminRoleRelationEntity extends BaseEntity<ApAdminRoleRelationEntity> {
+@TableName("ap_test")
+@ApiModel(value = "ApTest对象", description = "test")
+public class ApTest extends BaseEntity<ApTest> {
 
     private static final long serialVersionUID = 1L;
 
@@ -42,11 +42,9 @@ public class ApAdminRoleRelationEntity extends BaseEntity<ApAdminRoleRelationEnt
     @TableField("update_time")
     private Date updateTime;
 
-    @TableField("admin_id")
-    private Long adminId;
-
-    @TableField("role_id")
-    private Long roleId;
+    @ApiModelProperty("用户名称")
+    @TableField("username")
+    private String username;
 
 
     @Override

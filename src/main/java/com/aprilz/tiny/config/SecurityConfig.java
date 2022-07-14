@@ -4,9 +4,8 @@ import com.aprilz.tiny.common.properties.IgnoredUrlsProperties;
 import com.aprilz.tiny.component.JwtAuthenticationTokenFilter;
 import com.aprilz.tiny.component.RestAuthenticationEntryPoint;
 import com.aprilz.tiny.dto.AdminUserDetails;
-import com.aprilz.tiny.mbg.entity.ApAdminEntity;
-import com.aprilz.tiny.mbg.entity.ApPermissionEntity;
-import com.aprilz.tiny.service.IApAdminService;
+import com.aprilz.tiny.mbg.entity.ApUser;
+import com.aprilz.tiny.service.IApUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +30,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 
 /**
@@ -43,7 +41,7 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private IApAdminService adminService;
+    private IApUserService apUserService;
 
 
     /**
@@ -81,8 +79,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeRequests()
-                .antMatchers("/sso/login", "/sso/register")// 对登录注册要允许匿名访问
-                .permitAll()
+//                .antMatchers("/sso/login", "/sso/register")// 对登录注册要允许匿名访问
+//                .permitAll()
                 .antMatchers(HttpMethod.OPTIONS)//跨域请求会先进行一次options请求
                 .permitAll()
 //                .antMatchers("/**")//测试时全部运行访问
@@ -133,10 +131,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         //获取登录用户信息
         return username -> {
-            ApAdminEntity admin = adminService.getAdminByUsername(username);
-            if (admin != null) {
-                List<ApPermissionEntity> permissionList = adminService.getPermissionList(admin.getId());
-                return new AdminUserDetails(admin, permissionList);
+            ApUser apUser = apUserService.getUserByUsernameOrMobile(username);
+            if (apUser != null) {
+                return new AdminUserDetails(apUser);
             }
             throw new UsernameNotFoundException("用户名或密码错误");
         };

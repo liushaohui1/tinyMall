@@ -1,45 +1,38 @@
 package com.aprilz.tiny.dto;
 
-import com.aprilz.tiny.mbg.entity.ApAdminEntity;
-import com.aprilz.tiny.mbg.entity.ApPermissionEntity;
+import com.aprilz.tiny.mbg.entity.ApUser;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * SpringSecurity需要的用户详情
  * Created by aprilz on 2018/4/26.
  */
 public class AdminUserDetails implements UserDetails {
-    private ApAdminEntity apAdminEntity;
-    private List<ApPermissionEntity> permissionList;
+    private ApUser apUser;
+    //  private List<ApPermissionEntity> permissionList;
 
-    public AdminUserDetails(ApAdminEntity apAdminEntity, List<ApPermissionEntity> permissionList) {
-        this.apAdminEntity = apAdminEntity;
-        this.permissionList = permissionList;
+    public AdminUserDetails(ApUser apUser) {
+        this.apUser = apUser;
+
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        //返回当前用户的权限
-        return permissionList.stream()
-                .filter(permission -> permission.getValue() != null)
-                .map(permission -> new SimpleGrantedAuthority(permission.getValue()))
-                .collect(Collectors.toList());
+        //前台不需要区分权限
+        return null;
     }
 
     @Override
     public String getPassword() {
-        return apAdminEntity.getPassword();
+        return apUser.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return apAdminEntity.getUsername();
+        return apUser.getUsername();
     }
 
     @Override
@@ -59,6 +52,6 @@ public class AdminUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return apAdminEntity.getStatus() == 1;
+        return apUser.getStatus();
     }
 }

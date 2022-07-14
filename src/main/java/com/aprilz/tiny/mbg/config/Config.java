@@ -27,10 +27,10 @@ public class Config {
     public static final String DIR_NAME_XML = "mapper";
 
     /** 文件名后缀：Entity */
-    public static final String FILE_NAME_ENTITY = "%sEntity";
+    public static final String FILE_NAME_ENTITY = "%s";
 
     /** 文件名后缀：Dao */
-    public static final String FILE_NAME_DAO = "I%sDao";
+    public static final String FILE_NAME_DAO = "I%sMapper";
 
     /** 文件名后缀：Mapper */
     public static final String FILE_NAME_XML = "%sMapper";
