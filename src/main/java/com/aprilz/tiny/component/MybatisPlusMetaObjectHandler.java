@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
- * @description: TODO
+ * @description: mybatisplus拦截器
  * @author: liushaohui
  * @since: 2022/7/13
  **/
