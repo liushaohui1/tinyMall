@@ -42,30 +42,30 @@ public abstract class BaseEntity<A extends BaseEntity> extends Model {
 
 
     @CreatedBy
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(value = "create_by",fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建者", hidden = true)
     private String createBy;
 
     @CreatedDate
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(value = "create_time",fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间", hidden = true)
     private Date createTime;
 
     @LastModifiedBy
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(value = "update_by",fill = FieldFill.UPDATE)
     @ApiModelProperty(value = "更新者", hidden = true)
     private String updateBy;
 
     @LastModifiedDate
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableField(fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value = "更新时间", hidden = true)
     private Date updateTime;
 
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(value = "status",fill = FieldFill.INSERT)
     @ApiModelProperty(value = "删除标志 0->删除；1->未删除", hidden = true)
     private Boolean status;
 

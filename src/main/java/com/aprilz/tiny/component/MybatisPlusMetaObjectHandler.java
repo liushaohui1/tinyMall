@@ -3,10 +3,12 @@ package com.aprilz.tiny.component;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -20,22 +22,22 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-      //  log.info("start insert fill ....");
+        //  log.info("start insert fill ....");
         String username = "ADMIN";
-        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+        if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
             username = SecurityContextHolder.getContext().getAuthentication().getName();
         }
         if (metaObject.hasGetter("createTime")) {
-            this.strictInsertFill(metaObject, "createTime", () -> LocalDateTime.now(), LocalDateTime.class);
+            this.strictInsertFill(metaObject, "createTime", () -> new Date(), Date.class);
         }
         if (metaObject.hasGetter("updateTime")) {
-            this.strictInsertFill(metaObject, "updateTime", () -> LocalDateTime.now(), LocalDateTime.class);
+            this.strictUpdateFill(metaObject, "updateTime", () -> new Date(), Date.class);
         }
         if (metaObject.hasGetter("createBy")) {
             this.strictInsertFill(metaObject, "createBy", String.class, username);
         }
         if (metaObject.hasGetter("updateBy")) {
-            this.strictInsertFill(metaObject, "updateBy", String.class, username);
+            this.strictUpdateFill(metaObject, "updateBy", String.class, username);
         }
 
         if (metaObject.hasGetter("status")) {
@@ -48,16 +50,16 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-    //    log.info("start update fill ....");
+        //    log.info("start update fill ....");
         String username = "ADMIN";
-        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+        if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
             username = SecurityContextHolder.getContext().getAuthentication().getName();
         }
         if (metaObject.hasGetter("updateTime")) {
             this.strictUpdateFill(metaObject, "updateTime", () -> LocalDateTime.now(), LocalDateTime.class);
         }
         if (metaObject.hasGetter("updateBy")) {
-            this.strictInsertFill(metaObject, "updateBy", String.class, username);
+            this.strictUpdateFill(metaObject, "updateBy", String.class, username);
         }
     }
 }

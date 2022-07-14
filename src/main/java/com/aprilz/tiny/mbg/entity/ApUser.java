@@ -29,18 +29,7 @@ import lombok.experimental.Accessors;
 public class ApUser extends BaseEntity<ApUser> {
 
     private static final long serialVersionUID = 1L;
-
-    @TableField("create_by")
-    private String createBy;
-
-    @TableField("create_time")
-    private Date createTime;
-
-    @TableField("update_by")
-    private String updateBy;
-
-    @TableField("update_time")
-    private Date updateTime;
+    
 
     @ApiModelProperty("用户名称")
     @TableField("username")

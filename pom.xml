@@ -179,6 +179,13 @@
             <version>31.1-jre</version>
         </dependency>
 
+        <!--微信小程序 Java SDK-->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-miniapp</artifactId>
+            <version>4.3.0</version>
+        </dependency>
+
 
     </dependencies>
 

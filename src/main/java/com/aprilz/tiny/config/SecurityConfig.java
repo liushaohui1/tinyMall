@@ -1,5 +1,6 @@
 package com.aprilz.tiny.config;
 
+import com.aprilz.tiny.common.cache.Cache;
 import com.aprilz.tiny.common.properties.IgnoredUrlsProperties;
 import com.aprilz.tiny.component.JwtAuthenticationTokenFilter;
 import com.aprilz.tiny.component.RestAuthenticationEntryPoint;
@@ -43,6 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private IApUserService apUserService;
 
+    @Autowired
+    private Cache<String> cache;
 
     /**
      * 忽略验权配置
@@ -90,7 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 禁用缓存
         httpSecurity.headers().cacheControl();
         // 添加JWT filter
-        httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilter(jwtAuthenticationTokenFilter());
         //添加自定义未授权和未登录结果返回
         httpSecurity.exceptionHandling()
                 //全局拦截器影响会失效
@@ -140,8 +143,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
-        return new JwtAuthenticationTokenFilter();
+    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() throws Exception {
+        return new JwtAuthenticationTokenFilter(authenticationManager(), cache);
     }
 
     @Bean

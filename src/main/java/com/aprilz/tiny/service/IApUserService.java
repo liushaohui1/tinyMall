@@ -1,6 +1,7 @@
 package com.aprilz.tiny.service;
 
 import com.aprilz.tiny.mbg.entity.ApUser;
+import com.aprilz.tiny.vo.Token;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -15,5 +16,5 @@ public interface IApUserService extends IService<ApUser> {
 
     ApUser getUserByUsernameOrMobile(String username);
 
-    String login(String username, String password);
+    Token login(String username, String password);
 }

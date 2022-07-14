@@ -1,10 +1,14 @@
 package com.aprilz.tiny.common.utils;
 
+import com.aprilz.tiny.common.cache.Cache;
+import com.aprilz.tiny.common.cache.CachePrefix;
+import com.aprilz.tiny.vo.Token;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -12,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * JwtToken生成的工具类
@@ -34,15 +39,34 @@ public class JwtTokenUtil {
     @Value("${jwt.expiration}")
     private Long expiration;
 
+    @Autowired
+    private Cache cache;
+
     /**
      * 根据负责生成JWT的token
      */
-    private String generateToken(Map<String, Object> claims) {
-        return Jwts.builder()
+    private Token generateToken(Map<String, Object> claims) {
+        Token tokens = new Token();
+        String token = Jwts.builder()
                 .setClaims(claims)
-                .setExpiration(generateExpirationDate())
+                .setExpiration(generateExpirationDate(expiration))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
+        cache.put(CachePrefix.AUTH_TOKEN + token, 1,
+                expiration, TimeUnit.MINUTES);
+
+        String refreshToken = Jwts.builder()
+                .setClaims(claims)
+                .setExpiration(generateExpirationDate(expiration*2))
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
+
+        cache.put(CachePrefix.REFRESH_TOKEN + refreshToken, 1,
+                expiration*2, TimeUnit.MINUTES);
+
+        tokens.setToken(token);
+        tokens.setRefreshToken(refreshToken);
+        return tokens;
     }
 
     /**
@@ -62,10 +86,10 @@ public class JwtTokenUtil {
     }
 
     /**
-     * 生成token的过期时间
+     * 生成token的过期时间  分钟计算
      */
-    private Date generateExpirationDate() {
-        return new Date(System.currentTimeMillis() + expiration * 1000);
+    private Date generateExpirationDate(Long expiration) {
+        return new Date(System.currentTimeMillis() + expiration * 60 * 1000);
     }
 
     /**
@@ -112,7 +136,7 @@ public class JwtTokenUtil {
     /**
      * 根据用户信息生成token
      */
-    public String generateToken(UserDetails userDetails) {
+    public Token generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
         claims.put(CLAIM_KEY_CREATED, new Date());
@@ -129,7 +153,7 @@ public class JwtTokenUtil {
     /**
      * 刷新token
      */
-    public String refreshToken(String token) {
+    public Token refreshToken(String token) {
         Claims claims = getClaimsFromToken(token);
         claims.put(CLAIM_KEY_CREATED, new Date());
         return generateToken(claims);

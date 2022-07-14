@@ -4,6 +4,7 @@ import com.aprilz.tiny.common.utils.JwtTokenUtil;
 import com.aprilz.tiny.mapper.ApUserMapper;
 import com.aprilz.tiny.mbg.entity.ApUser;
 import com.aprilz.tiny.service.IApUserService;
+import com.aprilz.tiny.vo.Token;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -60,8 +61,8 @@ public class ApUserServiceImpl extends ServiceImpl<ApUserMapper, ApUser> impleme
     }
 
     @Override
-    public String login(String username, String password) {
-        String token = null;
+    public Token login(String username, String password) {
+        Token token = null;
         try {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if (!passwordEncoder.matches(password, userDetails.getPassword())) {
