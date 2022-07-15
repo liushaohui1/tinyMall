@@ -22,10 +22,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -160,11 +163,14 @@ public class ApUserController {
 
 
     @PostMapping("logout")
-    public CommonResult logout(HttpServletRequest request) {
-        String authHeader = request.getHeader(this.tokenHeader);
-        if (StrUtil.isNotBlank(authHeader)) {
-            String authToken = authHeader.substring(this.tokenHead.length()).trim();
+    public CommonResult logout() {
+        ServletRequestAttributes attribute = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attribute.getRequest();
+        String token = request.getHeader(this.tokenHeader);
+        if (StrUtil.isNotBlank(token)) {
+            String authToken = token.substring(this.tokenHead.length()).trim();
             cache.remove(CachePrefix.AUTH_TOKEN + authToken);
+            SecurityContextHolder.clearContext();
         }
         return CommonResult.success("success");
     }
