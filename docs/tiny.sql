@@ -27,7 +27,8 @@ CREATE TABLE `ap_coupon` (
   `create_time` datetime(6) DEFAULT NULL,
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `update_time` datetime(6) DEFAULT NULL,
-  `status` bit(1) DEFAULT b'1' COMMENT '优惠券状态，0删除 1可用 2下架',
+  `delete_flag` bit(1) DEFAULT b'1' COMMENT '0删除 1正常',
+  `status` tinyint(4) DEFAULT '1' COMMENT '优惠券状态， 1可用 2下架',
   `name` varchar(63) NOT NULL COMMENT '优惠券名称',
   `desc` varchar(127) DEFAULT '' COMMENT '优惠券介绍，通常是显示优惠券使用限制文字',
   `tag` varchar(63) DEFAULT '' COMMENT '优惠券标签，例如新人专用',
@@ -49,7 +50,32 @@ CREATE TABLE `ap_coupon` (
 
 /*Data for the table `ap_coupon` */
 
-insert  into `ap_coupon`(`id`,`create_by`,`create_time`,`update_by`,`update_time`,`status`,`name`,`desc`,`tag`,`total`,`discount`,`min`,`limit`,`type`,`goods_type`,`goods_value`,`code`,`time_type`,`days`,`start_time`,`end_time`) values (1,NULL,NULL,NULL,NULL,'\0','限时满减券','全场通用','无限制',0,'5.00','99.00',1,0,0,'[]',NULL,0,10,'2022-07-14 19:41:14','2060-12-14 19:41:19'),(2,NULL,NULL,NULL,NULL,'\0','限时满减券','全场通用','无限制',0,'10.00','99.00',1,0,0,'[]',NULL,0,10,'2022-07-14 19:41:14','2060-12-14 19:41:19'),(3,NULL,NULL,NULL,NULL,'\0','新用户优惠券','全场通用','无限制',0,'10.00','99.00',1,1,0,'[]',NULL,0,10,'2022-07-14 19:41:14','2060-12-14 19:41:19'),(8,NULL,NULL,NULL,NULL,'\0','可兑换优惠券','全场通用','仅兑换领券',0,'15.00','99.00',1,2,0,'[]','DC6FF8SE',0,7,'2022-07-14 19:41:14','2060-12-14 19:41:19');
+insert  into `ap_coupon`(`id`,`create_by`,`create_time`,`update_by`,`update_time`,`delete_flag`,`status`,`name`,`desc`,`tag`,`total`,`discount`,`min`,`limit`,`type`,`goods_type`,`goods_value`,`code`,`time_type`,`days`,`start_time`,`end_time`) values (1,NULL,NULL,NULL,NULL,'',1,'限时满减券','全场通用','无限制',0,'5.00','99.00',1,0,0,'[]',NULL,0,10,'2022-07-14 19:41:14','2060-12-14 19:41:19'),(2,NULL,NULL,NULL,NULL,'',1,'限时满减券','全场通用','无限制',0,'10.00','99.00',1,0,0,'[]',NULL,0,10,'2022-07-14 19:41:14','2060-12-14 19:41:19'),(3,NULL,NULL,NULL,NULL,'',1,'新用户优惠券','全场通用','无限制',0,'10.00','99.00',1,1,0,'[]',NULL,0,10,'2022-07-14 19:41:14','2060-12-14 19:41:19'),(8,NULL,NULL,NULL,NULL,'',1,'可兑换优惠券','全场通用','仅兑换领券',0,'15.00','99.00',1,2,0,'[]','DC6FF8SE',0,7,'2022-07-14 19:41:14','2060-12-14 19:41:19');
+
+/*Table structure for table `ap_coupon_user` */
+
+DROP TABLE IF EXISTS `ap_coupon_user`;
+
+CREATE TABLE `ap_coupon_user` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `create_time` datetime(6) DEFAULT NULL,
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `update_time` datetime(6) DEFAULT NULL,
+  `delete_flag` bit(1) DEFAULT b'1' COMMENT '0删除 1正常',
+  `status` tinyint(4) DEFAULT '0' COMMENT '优惠券状态， 0未使用 1已使用 2 已过期',
+  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
+  `coupon_id` bigint(20) NOT NULL COMMENT '优惠券ID',
+  `used_time` datetime DEFAULT NULL COMMENT '使用时间',
+  `start_time` datetime DEFAULT NULL COMMENT '有效期开始时间',
+  `end_time` datetime DEFAULT NULL COMMENT '有效期截至时间',
+  `order_id` bigint(20) DEFAULT NULL COMMENT '订单ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COMMENT='优惠券用户使用表';
+
+/*Data for the table `ap_coupon_user` */
+
+insert  into `ap_coupon_user`(`id`,`create_by`,`create_time`,`update_by`,`update_time`,`delete_flag`,`status`,`user_id`,`coupon_id`,`used_time`,`start_time`,`end_time`,`order_id`) values (9,'ADMIN','2022-07-14 20:57:33.143000',NULL,'2022-07-14 20:57:33.143000','',0,9,3,NULL,'2022-07-14 20:57:33','2022-07-24 20:57:33',NULL),(10,'ADMIN','2022-07-14 20:57:33.143000',NULL,'2022-07-14 20:57:33.143000','',0,9,3,NULL,'2022-07-14 20:57:33','2022-07-24 20:57:33',NULL);
 
 /*Table structure for table `ap_user` */
 
@@ -61,7 +87,8 @@ CREATE TABLE `ap_user` (
   `create_time` datetime(6) DEFAULT NULL,
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `update_time` datetime(6) DEFAULT NULL,
-  `status` bit(1) DEFAULT b'1' COMMENT '帐号启用状态：0->禁用；1->启用',
+  `delete_flag` bit(1) DEFAULT b'1' COMMENT '0删除 1正常',
+  `status` tinyint(4) DEFAULT '1' COMMENT '帐号启用状态：0->禁用；1->启用',
   `username` varchar(63) NOT NULL COMMENT '用户名称',
   `password` varchar(63) NOT NULL DEFAULT '' COMMENT '用户密码',
   `gender` tinyint(3) NOT NULL DEFAULT '0' COMMENT '性别：0 未知， 1男， 1 女',
@@ -76,11 +103,11 @@ CREATE TABLE `ap_user` (
   `session_key` varchar(100) NOT NULL DEFAULT '' COMMENT '微信登录会话KEY',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_name` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 /*Data for the table `ap_user` */
 
-insert  into `ap_user`(`id`,`create_by`,`create_time`,`update_by`,`update_time`,`status`,`username`,`password`,`gender`,`birthday`,`last_login_time`,`last_login_ip`,`user_level`,`nickname`,`mobile`,`avatar`,`wx_openid`,`session_key`) values (1,'ADMIN','2022-07-13 17:42:58.000000','ADMIN','2022-07-13 17:43:01.000000','','admin','$2a$10$NZ5o7r2E.ayT2ZoxgjlI.eJ6OEYqjH7INR/F.mXDbjZJi9HF0YCVG',0,NULL,NULL,'',0,'adm','','http://aprilz-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20190129/170157_yIl3_1767531.jpg','',''),(7,'ADMIN','2022-07-14 15:23:59.814000','ADMIN','2022-07-14 15:23:59.814000','','oPr2q1V-icWtUTe8FXCCf6yeryBg','oPr2q1V-icWtUTe8FXCCf6yeryBg',0,NULL,'2022-07-14 17:14:30','10.1.129.68',0,'白','','https://thirdwx.qlogo.cn/mmopen/vi_32/2KOBFlndeR5aIzSMFAzfQewiawkmT6LnZpiaf5DAKWAcTn0qaXCmI6wzP71qXHL55xAwqZLVvvs9j7wUYNlmmpiaw/132','oPr2q1V-icWtUTe8FXCCf6yeryBg','SX67Vcbob8fxHzuoMxTN/Q==');
+insert  into `ap_user`(`id`,`create_by`,`create_time`,`update_by`,`update_time`,`delete_flag`,`status`,`username`,`password`,`gender`,`birthday`,`last_login_time`,`last_login_ip`,`user_level`,`nickname`,`mobile`,`avatar`,`wx_openid`,`session_key`) values (9,'ADMIN','2022-07-14 20:57:33.094000','ADMIN','2022-07-14 20:57:33.094000','',1,'oPr2q1V-icWtUTe8FXCCf6yeryBg','oPr2q1V-icWtUTe8FXCCf6yeryBg',0,NULL,'2022-07-15 10:42:47','10.1.129.68',0,'白','','https://thirdwx.qlogo.cn/mmopen/vi_32/2KOBFlndeR5aIzSMFAzfQewiawkmT6LnZpiaf5DAKWAcTn0qaXCmI6wzP71qXHL55xAwqZLVvvs9j7wUYNlmmpiaw/132','oPr2q1V-icWtUTe8FXCCf6yeryBg','dDZg901K5VvZyUwaCLSeHg==');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

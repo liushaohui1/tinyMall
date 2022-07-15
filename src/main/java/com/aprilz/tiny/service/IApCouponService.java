@@ -1,6 +1,8 @@
 package com.aprilz.tiny.service;
 
 import com.aprilz.tiny.mbg.entity.ApCoupon;
+import com.aprilz.tiny.vo.CouponVo;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -14,4 +16,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IApCouponService extends IService<ApCoupon> {
 
     void assignForRegister(Long id);
+
+    IPage<CouponVo> queryList(Integer couponId, Short status, Integer page, Integer limit, String sort, String order);
 }

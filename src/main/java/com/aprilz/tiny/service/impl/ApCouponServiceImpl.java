@@ -7,8 +7,13 @@ import com.aprilz.tiny.mbg.entity.ApCoupon;
 import com.aprilz.tiny.mbg.entity.ApCouponUser;
 import com.aprilz.tiny.service.IApCouponService;
 import com.aprilz.tiny.service.IApCouponUserService;
+import com.aprilz.tiny.vo.CouponVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,6 +31,10 @@ import java.util.Objects;
  */
 @Service
 public class ApCouponServiceImpl extends ServiceImpl<ApCouponMapper, ApCoupon> implements IApCouponService {
+
+    @Autowired
+    private IApCouponService couponService;
+
 
     @Resource
     private IApCouponUserService couponUserService;
@@ -66,5 +75,22 @@ public class ApCouponServiceImpl extends ServiceImpl<ApCouponMapper, ApCoupon> i
 
         });
 
+    }
+
+    @Override
+    public IPage<CouponVo> queryList(Integer couponId, Short status, Integer page, Integer limit, String sort, String order) {
+        // 构造分页对象
+        Page<CouponVo> pages = new Page(1, 10);
+        QueryWrapper<CouponVo> queryWrapper = new QueryWrapper<>();
+        if (Objects.nonNull(couponId)) {
+            queryWrapper.eq("t.id", couponId);
+        }
+        if (Objects.nonNull(status)) {
+            queryWrapper.eq("u.status", status);
+        }
+        queryWrapper.orderByDesc("u.create_time");
+
+        IPage<CouponVo> productPage = this.baseMapper.getPageVo(pages, queryWrapper);
+        return productPage;
     }
 }
