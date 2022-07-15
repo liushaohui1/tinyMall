@@ -80,10 +80,14 @@ public class ApUserController {
         if (token == null) {
             return CommonResult.validateFailed("用户名或密码错误");
         }
-        Map<String, String> tokenMap = new HashMap<>();
+        Map<String, Object> tokenMap = new HashMap<>();
         tokenMap.put("token", tokenHead + " " + token.getToken());
         tokenMap.put("refreshToken", tokenHead + " " + token.getRefreshToken());
         // tokenMap.put("tokenHead", tokenHead);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setNickName(loginParam.getUsername());
+        userInfo.setAvatarUrl("https://thirdwx.qlogo.cn/mmopen/vi_32/2KOBFlndeR5aIzSMFAzfQewiawkmT6LnZpiaf5DAKWAcTn0qaXCmI6wzP71qXHL55xAwqZLVvvs9j7wUYNlmmpiaw/132");
+        tokenMap.put("userInfo", userInfo);
         return CommonResult.success(tokenMap);
     }
 
@@ -118,7 +122,7 @@ public class ApUserController {
         }
 
         LambdaQueryWrapper<ApUser> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(ApUser::getWxOpenid, openId).eq(ApUser::getDeleteFlag, true).eq(ApUser::getStatus,1);
+        queryWrapper.eq(ApUser::getWxOpenid, openId).eq(ApUser::getDeleteFlag, true).eq(ApUser::getStatus,1).last("limit 1");
         ApUser user = userService.getOne(queryWrapper);
         if (Objects.isNull(user)) {
             user = new ApUser();

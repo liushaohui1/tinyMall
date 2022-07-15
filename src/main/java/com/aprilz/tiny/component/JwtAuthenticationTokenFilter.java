@@ -3,6 +3,7 @@ package com.aprilz.tiny.component;
 import com.aprilz.tiny.common.cache.Cache;
 import com.aprilz.tiny.common.cache.CachePrefix;
 import com.aprilz.tiny.common.utils.JwtTokenUtil;
+import com.aprilz.tiny.mbg.entity.ApUser;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,8 +58,9 @@ public class JwtAuthenticationTokenFilter extends BasicAuthenticationFilter {
         String authHeader = request.getHeader(this.tokenHeader);
         if (authHeader != null && authHeader.startsWith(this.tokenHead)) {
             String authToken = authHeader.substring(this.tokenHead.length()).trim();// The part after "Bearer "
-            String username = jwtTokenUtil.getUserNameFromToken(authToken);
-      //      LOGGER.info("checking username:{}", username);
+            ApUser userInfo = jwtTokenUtil.getUserInfoFromToken(authToken);
+            String username =userInfo.getUsername();
+            //      LOGGER.info("checking username:{}", username);
             //如果redis没有没有token 则return
             if (!cache.hasKey(CachePrefix.AUTH_TOKEN + authToken)) {
                 chain.doFilter(request, response);
