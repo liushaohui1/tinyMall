@@ -1,10 +1,15 @@
 package com.aprilz.tiny.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import com.aprilz.tiny.common.consts.Const;
+import com.aprilz.tiny.common.exception.ServiceException;
+import com.aprilz.tiny.common.utils.UserUtil;
+import com.aprilz.tiny.dto.AdminUserDetails;
 import com.aprilz.tiny.mapper.ApCouponMapper;
 import com.aprilz.tiny.mbg.entity.ApCoupon;
 import com.aprilz.tiny.mbg.entity.ApCouponUser;
+import com.aprilz.tiny.mbg.entity.ApUser;
 import com.aprilz.tiny.service.IApCouponService;
 import com.aprilz.tiny.service.IApCouponUserService;
 import com.aprilz.tiny.vo.CouponVo;
@@ -14,6 +19,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -79,7 +86,12 @@ public class ApCouponServiceImpl extends ServiceImpl<ApCouponMapper, ApCoupon> i
 
     @Override
     public IPage<CouponVo> queryList(Integer couponId, Short status, Integer page, Integer size, String sort, String order) {
+        ApUser user = UserUtil.getUser();
+        if(Objects.isNull(user)){
+            throw  new ServiceException();
+        }
         // 构造分页对象
+
         Page<CouponVo> pages = new Page(page, size);
         QueryWrapper<CouponVo> queryWrapper = new QueryWrapper<>();
         if (Objects.nonNull(couponId)) {
@@ -88,7 +100,13 @@ public class ApCouponServiceImpl extends ServiceImpl<ApCouponMapper, ApCoupon> i
         if (Objects.nonNull(status)) {
             queryWrapper.eq("u.status", status);
         }
-        queryWrapper.orderByDesc("u.create_time");
+        queryWrapper.eq("u.user_id", user.getId());
+
+        if("desc".equals(order)){
+            queryWrapper.orderByDesc("u." +sort);
+        }else{
+            queryWrapper.orderByAsc("u." + sort);
+        }
 
         IPage<CouponVo> productPage = this.baseMapper.getPageVo(pages, queryWrapper);
         return productPage;

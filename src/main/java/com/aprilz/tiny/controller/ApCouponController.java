@@ -32,7 +32,7 @@ public class ApCouponController {
     public CommonResult mylist(@RequestParam("status") Short status,
                                @RequestParam(value = "page", defaultValue = "1") Integer page,
                                @RequestParam(value = "size", defaultValue = "10") Integer size,
-                               @RequestParam(defaultValue = "add_time") String sort,
+                               @RequestParam(defaultValue = "create_time") String sort,
                                @RequestParam(defaultValue = "desc") String order) {
         IPage<CouponVo> coupons = couponService.queryList(null, status, page, size, sort, order);
         return CommonResult.success(coupons);

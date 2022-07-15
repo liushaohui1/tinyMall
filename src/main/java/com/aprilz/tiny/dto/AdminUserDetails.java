@@ -19,6 +19,10 @@ public class AdminUserDetails implements UserDetails {
 
     }
 
+    public ApUser getApUser() {
+        return apUser;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         //前台不需要区分权限
