@@ -78,9 +78,9 @@ public class ApCouponServiceImpl extends ServiceImpl<ApCouponMapper, ApCoupon> i
     }
 
     @Override
-    public IPage<CouponVo> queryList(Integer couponId, Short status, Integer page, Integer limit, String sort, String order) {
+    public IPage<CouponVo> queryList(Integer couponId, Short status, Integer page, Integer size, String sort, String order) {
         // 构造分页对象
-        Page<CouponVo> pages = new Page(1, 10);
+        Page<CouponVo> pages = new Page(page, size);
         QueryWrapper<CouponVo> queryWrapper = new QueryWrapper<>();
         if (Objects.nonNull(couponId)) {
             queryWrapper.eq("t.id", couponId);

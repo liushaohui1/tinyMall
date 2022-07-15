@@ -17,5 +17,5 @@ public interface IApCouponService extends IService<ApCoupon> {
 
     void assignForRegister(Long id);
 
-    IPage<CouponVo> queryList(Integer couponId, Short status, Integer page, Integer limit, String sort, String order);
+    IPage<CouponVo> queryList(Integer couponId, Short status, Integer page, Integer size, String sort, String order);
 }

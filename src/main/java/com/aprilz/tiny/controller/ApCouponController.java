@@ -31,10 +31,10 @@ public class ApCouponController {
     @GetMapping("mylist")
     public CommonResult mylist(@RequestParam("status") Short status,
                                @RequestParam(value = "page", defaultValue = "1") Integer page,
-                               @RequestParam(value = "limit", defaultValue = "10") Integer limit,
+                               @RequestParam(value = "size", defaultValue = "10") Integer size,
                                @RequestParam(defaultValue = "add_time") String sort,
                                @RequestParam(defaultValue = "desc") String order) {
-        IPage<CouponVo> coupons = couponService.queryList(null, status, page, limit, sort, order);
+        IPage<CouponVo> coupons = couponService.queryList(null, status, page, size, sort, order);
         return CommonResult.success(coupons);
 
     }
