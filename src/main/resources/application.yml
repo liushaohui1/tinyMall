@@ -26,8 +26,10 @@ spring:
         # 连接池中的最小空闲连接 默认 8
         min-idle: 8
     timeout: 10000
-
-
+    # 全局日期格式化
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 #mybatis
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
@@ -90,6 +92,8 @@ ignored:
     - /*.html
     - /auth/login
     - /auth/wxLogin
+    - /home/index
+    - /goods/count
 
 # wx相关配置
 wx:

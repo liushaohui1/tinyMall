@@ -162,7 +162,7 @@ public class ApUserController {
     }
 
 
-    @PostMapping("logout")
+    @PostMapping("/logout")
     public CommonResult logout() {
         ServletRequestAttributes attribute = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attribute.getRequest();

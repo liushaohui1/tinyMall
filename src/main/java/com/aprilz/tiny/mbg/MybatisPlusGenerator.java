@@ -29,7 +29,7 @@ public class MybatisPlusGenerator {
 
 
         //逗号分割
-        String tableName = "ap_coupon_user";
+        String tableName = "ap_system";
 
         CodeGeneratorBo bo = new CodeGeneratorBo();
         bo.setDbUrl(dbUrl).setDriver(driver).setUsername(username).setPassword(password)

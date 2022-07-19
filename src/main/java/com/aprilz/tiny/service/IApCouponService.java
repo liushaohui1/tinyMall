@@ -5,6 +5,8 @@ import com.aprilz.tiny.vo.CouponVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 优惠券信息及规则表 服务类
@@ -18,4 +20,6 @@ public interface IApCouponService extends IService<ApCoupon> {
     void assignForRegister(Long id);
 
     IPage<CouponVo> queryList(Integer couponId, Short status, Integer page, Integer size, String sort, String order);
+
+    List<ApCoupon> queryAvailableList(Long userId);
 }

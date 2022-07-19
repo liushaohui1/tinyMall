@@ -46,6 +46,16 @@ public class RedisCache implements Cache {
     }
 
     @Override
+    public Integer getInteger(Object key) {
+        try {
+            return (Integer) redisTemplate.opsForValue().get(key);
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    @Override
     public List multiGet(Collection keys) {
         return redisTemplate.opsForValue().multiGet(keys);
 

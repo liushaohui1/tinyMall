@@ -33,6 +33,8 @@ public interface Cache<T> {
     String getString(Object key);
 
 
+    Integer getInteger(Object key);
+
     /**
      * multiGet
      *
