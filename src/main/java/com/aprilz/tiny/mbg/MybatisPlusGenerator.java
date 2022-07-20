@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * @description: 执行main
- * @author: liushaohui
+ * @author: aprilz
  * @since: 2022/7/7
  **/
 public class MybatisPlusGenerator {
@@ -29,7 +29,7 @@ public class MybatisPlusGenerator {
 
 
         //逗号分割
-        String tableName = "ap_system";
+        String tableName = "ap_storage";
 
         CodeGeneratorBo bo = new CodeGeneratorBo();
         bo.setDbUrl(dbUrl).setDriver(driver).setUsername(username).setPassword(password)

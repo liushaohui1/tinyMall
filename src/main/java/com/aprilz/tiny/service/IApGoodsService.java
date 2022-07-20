@@ -1,6 +1,7 @@
 package com.aprilz.tiny.service;
 
 import com.aprilz.tiny.mbg.entity.ApGoods;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -18,4 +19,8 @@ public interface IApGoodsService extends IService<ApGoods> {
     List<ApGoods> queryByNew(Integer offset, Integer limit);
 
     List<ApGoods> queryByHot(Integer offset, Integer limit);
+
+    Page<ApGoods> querySelective(Integer categoryId, Integer brandId, String keyword, Boolean isHot, Boolean isNew, Integer page, Integer limit, String sort, String order);
+
+    List<Integer> getCategoryIds(Integer categoryId, Integer brandId, String keyword, Boolean isHot, Boolean isNew);
 }

@@ -94,6 +94,11 @@ ignored:
     - /auth/wxLogin
     - /home/index
     - /goods/count
+    - /goods/detail
+    - /cart/goodsCount
+    - /goods/related
+    - /goods/category
+    - /goods/list
 
 # wx相关配置
 wx:

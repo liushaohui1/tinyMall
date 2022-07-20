@@ -2,7 +2,7 @@ package com.aprilz.tiny.common.consts;
 
 /**
  * @description: 公共定义变量
- * @author: liushaohui
+ * @author: aprilz
  * @since: 2022/7/14
  **/
 public class Const {
@@ -19,5 +19,10 @@ public class Const {
 
     public static final Integer TIME_TYPE_DAYS = 0;
     public static final Integer TIME_TYPE_TIME = 1;
+
+    //团购状态 正常上线则0，到期自动下线则1，管理手动下线则2
+    public static final Short RULE_STATUS_ON = 0;
+    public static final Short RULE_STATUS_DOWN_EXPIRE = 1;
+    public static final Short RULE_STATUS_DOWN_ADMIN = 2;
 
 }

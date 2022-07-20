@@ -20,6 +20,6 @@ import org.apache.ibatis.annotations.Select;
  */
 public interface ApGrouponRulesMapper extends BaseMapper<ApGrouponRules> {
 
-    @Select("SELECT u.id,u.`goods_name` as name,u.expire_time,g.brief,g.pic_url,g.counter_price,g.retail_price,(g.retail_price -  u.discount ) AS grouponPrice,u.discount AS grouponDiscount,u.discount_member AS grouponMember  FROM `ap_groupon_rules` u INNER JOIN `ap_goods` g ON u.goods_id = g.`id` ${ew.customSqlSegment}")
+    @Select("SELECT g.id,u.`goods_name` as name,u.expire_time,g.brief,g.pic_url,g.counter_price,g.retail_price,(g.retail_price -  u.discount ) AS grouponPrice,u.discount AS grouponDiscount,u.discount_member AS grouponMember  FROM `ap_groupon_rules` u INNER JOIN `ap_goods` g ON u.goods_id = g.`id` ${ew.customSqlSegment}")
     IPage<GrouponRuleVo> queryPage(Page<GrouponRuleVo> pages, @Param(Constants.WRAPPER) QueryWrapper<GrouponRuleVo> queryWrapper);
 }

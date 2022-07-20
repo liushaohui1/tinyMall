@@ -1,15 +1,16 @@
 package com.aprilz.tiny.mbg.entity;
 
 import com.aprilz.tiny.mbg.base.BaseEntity;
-import com.baomidou.mybatisplus.annotation.*;
-
-import java.io.Serializable;
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -79,7 +80,6 @@ public class ApUser extends BaseEntity<ApUser> {
 
     @ApiModelProperty("帐号启用状态：0->禁用；1->启用")
     @TableField("status")
-    @TableLogic
     private Integer status;
 
 

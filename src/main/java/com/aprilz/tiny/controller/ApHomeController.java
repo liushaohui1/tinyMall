@@ -5,6 +5,7 @@ import cn.hutool.json.JSONUtil;
 import com.aprilz.tiny.common.api.CommonResult;
 import com.aprilz.tiny.common.cache.Cache;
 import com.aprilz.tiny.common.consts.CacheConst;
+import com.aprilz.tiny.common.utils.CacheDbUtil;
 import com.aprilz.tiny.common.utils.UserUtil;
 import com.aprilz.tiny.config.init.SystemConfig;
 import com.aprilz.tiny.mbg.entity.ApAd;
@@ -26,7 +27,7 @@ import java.util.concurrent.*;
 
 /**
  * @description: 首页
- * @author: liushaohui
+ * @author: aprilz
  * @since: 2022/7/18
  **/
 @RestController
@@ -88,16 +89,16 @@ public class ApHomeController {
             couponListCallable = () -> couponService.queryAvailableList(user.getId());
         }
         //查询新品
-        Callable<List> newGoodsListCallable = () -> goodsService.queryByNew(0, Optional.ofNullable(cache.getInteger(SystemConfig.LITEMALL_WX_INDEX_NEW)).orElse(6));
+        Callable<List> newGoodsListCallable = () -> goodsService.queryByNew(0, Optional.ofNullable(CacheDbUtil.getInteger(SystemConfig.LITEMALL_WX_INDEX_NEW)).orElse(6));
 
         //查询热门商品
-        Callable<List> hotGoodsListCallable = () -> goodsService.queryByHot(0, Optional.ofNullable(cache.getInteger(SystemConfig.LITEMALL_WX_INDEX_HOT)).orElse(6));
+        Callable<List> hotGoodsListCallable = () -> goodsService.queryByHot(0, Optional.ofNullable(CacheDbUtil.getInteger(SystemConfig.LITEMALL_WX_INDEX_HOT)).orElse(6));
 
         //查询品牌商
-        Callable<List> brandListCallable = () -> brandService.query(0, Optional.ofNullable(cache.getInteger(SystemConfig.LITEMALL_WX_INDEX_BRAND)).orElse(4));
+        Callable<List> brandListCallable = () -> brandService.query(0, Optional.ofNullable(CacheDbUtil.getInteger(SystemConfig.LITEMALL_WX_INDEX_BRAND)).orElse(4));
 
         //专题精选栏目
-        Callable<List> topicListCallable = () -> topicService.query(0, Optional.ofNullable(cache.getInteger(SystemConfig.LITEMALL_WX_INDEX_BRAND)).orElse(4));
+        Callable<List> topicListCallable = () -> topicService.query(0, Optional.ofNullable(CacheDbUtil.getInteger(SystemConfig.LITEMALL_WX_INDEX_BRAND)).orElse(4));
 
         //团购专区
         Callable<IPage<GrouponRuleVo>> grouponListCallable = () -> grouponRulesService.queryPage(0, 5);
@@ -151,6 +152,26 @@ public class ApHomeController {
 //        }
         return CommonResult.success(entity);
 
+    }
+
+
+    /**
+     * @param
+     * @return com.aprilz.tiny.common.api.CommonResult
+     * @author aprilz
+     * @description 商城介绍信息
+     * @since 2022/7/20
+     **/
+    @GetMapping("/about")
+    public CommonResult about() {
+        Map<String, Object> about = new HashMap<>();
+        about.put("name", CacheDbUtil.get(SystemConfig.LITEMALL_MALL_NAME));
+        about.put("address", CacheDbUtil.get(SystemConfig.LITEMALL_MALL_ADDRESS));
+        about.put("phone", CacheDbUtil.get(SystemConfig.LITEMALL_MALL_PHONE));
+        about.put("qq", CacheDbUtil.get(SystemConfig.LITEMALL_MALL_QQ));
+        about.put("longitude", CacheDbUtil.get(SystemConfig.LITEMALL_MALL_LONGITUDE));
+        about.put("latitude", CacheDbUtil.get(SystemConfig.LITEMALL_MALL_LATITUDE));
+        return CommonResult.success(about);
     }
 
 

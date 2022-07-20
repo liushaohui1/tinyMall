@@ -7,7 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * @description: TODO
- * @author: liushaohui
+ * @author: aprilz
  * @since: 2022/7/15
  **/
 public class UserUtil {

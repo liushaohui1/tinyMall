@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 
 /**
  * @description: wx登录param
- * @author: liushaohui
+ * @author: aprilz
  * @since: 2022/7/14
  **/
 @Data

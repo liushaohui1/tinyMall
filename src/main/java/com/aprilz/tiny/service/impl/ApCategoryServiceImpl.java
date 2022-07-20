@@ -38,9 +38,9 @@ public class ApCategoryServiceImpl extends ServiceImpl<ApCategoryMapper, ApCateg
     /**
      * @param
      * @return java.util.List<java.util.Map>
-     * @author liushaohui
+     * @author aprilz
      * @description 首页楼层商品查询
-     * @since 2022/7/19
+     * @since 2022/7/20
      **/
     @Override
     public List<Map> queryIndex() {
@@ -70,7 +70,7 @@ public class ApCategoryServiceImpl extends ServiceImpl<ApCategoryMapper, ApCateg
                 Integer goodsNum = Optional.ofNullable(cache.getInteger(SystemConfig.LITEMALL_WX_INDEX_CATLOG_GOODS)).orElse(4);
                 LambdaQueryWrapper<ApGoods> wrapper = new LambdaQueryWrapper<>();
                 wrapper.in(ApGoods::getCategoryId, collect).eq(ApGoods::getIsOnSale, true).eq(ApGoods::getDeleteFlag, true)
-                        .orderByDesc(ApGoods::getCreateTime).last("limit 0," + goodsNum);
+                        .orderByAsc(ApGoods::getSortOrder).last("limit 0," + goodsNum);
                 categoryGoods = goodsService.list(wrapper);
             }
             Map<String, Object> catGoods = new HashMap<>();

@@ -1,5 +1,6 @@
 package com.aprilz.tiny.mbg.entity;
 
+import com.aprilz.tiny.component.JsonStringArrayTypeHandler;
 import com.aprilz.tiny.mbg.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -23,7 +24,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("ap_goods")
+@TableName(value = "ap_goods", autoResultMap = true)
 @ApiModel(value = "ApGoods对象", description = "商品基本信息表")
 public class ApGoods extends BaseEntity<ApGoods> {
 
@@ -45,8 +46,8 @@ public class ApGoods extends BaseEntity<ApGoods> {
     private Integer brandId;
 
     @ApiModelProperty("商品宣传图片列表，采用JSON数组格式")
-    @TableField("gallery")
-    private String gallery;
+    @TableField(value = "gallery", typeHandler = JsonStringArrayTypeHandler.class)
+    private String[] gallery;
 
     @ApiModelProperty("商品关键字，采用逗号间隔")
     @TableField("keywords")

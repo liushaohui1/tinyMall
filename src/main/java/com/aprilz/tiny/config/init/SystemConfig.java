@@ -2,7 +2,7 @@ package com.aprilz.tiny.config.init;
 
 /**
  * @description: 系统设置
- * @author: liushaohui
+ * @author: aprilz
  * @since: 2022/7/19
  **/
 public class SystemConfig {
@@ -42,6 +42,6 @@ public class SystemConfig {
     //经度
     public final static String LITEMALL_MALL_LONGITUDE = "litemall_mall_longitude";
     //纬度
-    public final static String LITEMALL_MALL_Latitude = "litemall_mall_latitude";
+    public final static String LITEMALL_MALL_LATITUDE = "litemall_mall_latitude";
 
 }

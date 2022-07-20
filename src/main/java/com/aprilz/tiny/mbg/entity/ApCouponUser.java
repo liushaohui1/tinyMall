@@ -1,14 +1,8 @@
 package com.aprilz.tiny.mbg.entity;
 
 import com.aprilz.tiny.mbg.base.BaseEntity;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,6 +10,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -36,7 +33,6 @@ public class ApCouponUser extends BaseEntity<ApCouponUser> {
 
     @ApiModelProperty("优惠券状态， 1可用  2 已用")
     @TableField("status")
-    @TableLogic
     private Integer status;
 
     @ApiModelProperty("用户ID")

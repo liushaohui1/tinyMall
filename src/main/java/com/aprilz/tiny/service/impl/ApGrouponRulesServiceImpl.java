@@ -1,5 +1,6 @@
 package com.aprilz.tiny.service.impl;
 
+import com.aprilz.tiny.common.consts.Const;
 import com.aprilz.tiny.mapper.ApGrouponRulesMapper;
 import com.aprilz.tiny.mbg.entity.ApGrouponRules;
 import com.aprilz.tiny.service.IApGrouponRulesService;
@@ -29,7 +30,7 @@ public class ApGrouponRulesServiceImpl extends ServiceImpl<ApGrouponRulesMapper,
         QueryWrapper<GrouponRuleVo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("u.delete_flag", true);
         queryWrapper.eq("g.delete_flag", true);
-        queryWrapper.eq("u.status", 0);
+        queryWrapper.eq("u.status", Const.RULE_STATUS_ON);
         queryWrapper.gt("u.expire_time", new Date());
         queryWrapper.orderByDesc("u.create_time").orderByDesc("g.create_time");
         return this.baseMapper.queryPage(pages, queryWrapper);

@@ -114,7 +114,7 @@ public class ApCouponServiceImpl extends ServiceImpl<ApCouponMapper, ApCoupon> i
     /**
      * @param
      * @return java.util.List
-     * @author liushaohui
+     * @author aprilz
      * @description 过滤掉用户已领取过的优惠券，并最多三条
      * @since 2022/7/19
      **/

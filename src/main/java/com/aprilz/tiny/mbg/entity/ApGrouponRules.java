@@ -2,7 +2,6 @@ package com.aprilz.tiny.mbg.entity;
 
 import com.aprilz.tiny.mbg.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -57,7 +56,6 @@ public class ApGrouponRules extends BaseEntity<ApGrouponRules> {
 
     @ApiModelProperty("团购规则状态，正常上线则0，到期自动下线则1，管理手动下线则2")
     @TableField("status")
-    @TableLogic
     private Integer status;
 
 
