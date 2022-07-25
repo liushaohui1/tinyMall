@@ -345,7 +345,7 @@ public class ApGoodsController {
 
         // 查询商品所属类目列表。
         List<Integer> goodsCatIds = goodsService.getCategoryIds(categoryId, brandId, keyword, isHot, isNew);
-        List<ApCategory> categoryList = null;
+        List<ApCategory> categoryList;
         if (goodsCatIds.size() != 0) {
             LambdaQueryWrapper<ApCategory> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.in(ApCategory::getId, goodsCatIds).eq(ApCategory::getLevel, "L2").eq(ApCategory::getDeleteFlag, true);

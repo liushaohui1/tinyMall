@@ -24,6 +24,7 @@ public class CacheConst {
     public static final boolean ENABLE = false;
     public static final String INDEX = "index";
     public static final String CATALOG = "catalog";
+    public static final String REGION = "region";
     public static final String GOODS = "goods";
 
 

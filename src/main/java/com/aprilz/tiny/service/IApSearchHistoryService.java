@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IApSearchHistoryService extends IService<ApSearchHistory> {
 
+    Integer deleteByUid(Long id);
 }

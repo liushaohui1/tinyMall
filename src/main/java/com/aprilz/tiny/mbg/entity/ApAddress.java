@@ -34,7 +34,7 @@ public class ApAddress extends BaseEntity<ApAddress> {
 
     @ApiModelProperty("用户表的用户ID")
     @TableField("user_id")
-    private Integer userId;
+    private Long userId;
 
     @ApiModelProperty("行政区域表的省ID")
     @TableField("province")

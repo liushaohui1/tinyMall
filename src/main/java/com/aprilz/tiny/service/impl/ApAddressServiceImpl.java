@@ -5,6 +5,7 @@ import com.aprilz.tiny.mbg.entity.ApAddress;
 import com.aprilz.tiny.service.IApAddressService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -17,4 +18,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ApAddressServiceImpl extends ServiceImpl<ApAddressMapper, ApAddress> implements IApAddressService {
 
+    @Override
+    @Transactional
+    public void resetDefault(Long userId) {
+        this.lambdaUpdate().set(ApAddress::getIsDefault, false).eq(ApAddress::getUserId, userId).eq(ApAddress::getDeleteFlag, true)
+                .update();
+    }
 }

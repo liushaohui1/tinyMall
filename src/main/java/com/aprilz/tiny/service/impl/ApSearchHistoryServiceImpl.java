@@ -5,6 +5,7 @@ import com.aprilz.tiny.mbg.entity.ApSearchHistory;
 import com.aprilz.tiny.service.IApSearchHistoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -17,4 +18,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ApSearchHistoryServiceImpl extends ServiceImpl<ApSearchHistoryMapper, ApSearchHistory> implements IApSearchHistoryService {
 
+    @Override
+    @Transactional
+    public Integer deleteByUid(Long id) {
+
+        this.lambdaUpdate().set(ApSearchHistory::getDeleteFlag, false).eq(ApSearchHistory::getUserId, id)
+                .update();
+    }
 }
